@@ -1,0 +1,7 @@
+[v-cloak] > * {
+    display: none;
+}
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}

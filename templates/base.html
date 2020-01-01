@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="7XcTpgmkWZrRmn1OLgCn0HORBzQRjlNshwiFi9-ah2g"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>{% block head_title %}{% endblock head_title %}Aida's Tasks</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'images/icons/favicon.png' %}" type="image/png">
+  <link rel="icon" href="{% static 'images/icons/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'css/vuetify.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/snotify-material.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="{% static 'js/solid.min.js' %}"></script>
+  <script src="{% static  'js/fontawesome.min.js'%}"></script>
+</head>
+<body>
+  <div id="app" v-cloak>
+    <v-app>
+      <v-content>
+        {% block content %}{% endblock %}
+        <vue-snotify></vue-snotify>
+      </v-content>
+    </v-app>
+  </div>
+
+  <script src="{% static "js/vue.js" %}"></script>
+  <script src="{% static "js/vuetify.min.js" %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+  <script src="{% static "js/vue-snotify.min.js" %}"></script>
+  <script>
+    var app = new Vue({
+      delimiters: ['[[', ']]'],
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {% block data %}{}{% endblock %},
+      methods: {% block methods %}{}{% endblock %},
+      mounted() {% block mounted %}{}{% endblock %}
+    });
+  </script>
+  {% block additional_js %}{% endblock %}
+</body>
+</html>
