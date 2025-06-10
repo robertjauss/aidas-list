@@ -1,10 +1,11 @@
-from .views import HomeView, LoginView
 from django.contrib import admin
 from django.urls import path, include
 
+from AidasTasks import views
+
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
-    path('login/', LoginView.as_view()),
-    path('api/', include('api.urls')),
-    path('admin/', admin.site.urls),
+    path("", views.HomeView.as_view(), name="home"),
+    path("task/crud/", views.task_crud_view, name="task_crud"),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("admin/", admin.site.urls),
 ]

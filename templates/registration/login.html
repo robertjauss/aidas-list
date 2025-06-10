@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+{% block head_title %}Login | {% endblock head_title %}
+
+
+{% block content %}
+  <wa-card with-header style="max-width: 800px; margin-left: auto; margin-right: auto;">
+    <div slot="header">
+      <h3>Login</h3>
+    </div>
+    <form action="{% url "login" %}" method="post" class="wa-stack">
+      {% csrf_token %}
+      {{ redirect_field }}
+      {% if form.errors %}
+        {% for error in form.errors.values %}
+          <wa-callout variant="danger">
+            <wa-icon slot="icon" name="circle-exclamation" style="font-size: 2.5rem;"></wa-icon>
+            <strong>{{ error }}</strong>
+          </wa-callout>
+        {% endfor %}
+      {% endif %}
+
+      <wa-input
+          label="Username"
+          name="username"
+          maxlength="150"
+          required
+      ></wa-input>
+
+      <wa-input
+          label="Password"
+          type="password"
+          name="password"
+          password-toggle
+          required
+      ></wa-input>
+
+      <div style="display: flex; justify-content: flex-end">
+        <wa-button
+            variant="brand"
+            type="submit"
+        >
+          Sign In
+        </wa-button>
+      </div>
+    </form>
+  </wa-card>
+{% endblock content %}

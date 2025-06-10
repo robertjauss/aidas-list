@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <div class="wa-stack">
+    <div class="wa-stack" id="tasks" hx-swap-oob="true">
+      {% for task in tasks %}
+        <wa-card with-header {% if task.completed %}style="background-color: var(--wa-color-success-fill-normal);"{% endif %}>
+          <div slot="header">
+            <h4 style="margin: 0">{{ task.title }}</h4>
+          </div>
+          <div class="wa-flank:end">
+            <p class="wa-body-l">{{ task.notes }}</p>
+            <div class="wa-cluster">
+
+              <wa-icon-button name="pen-to-square" variant="solid" style="font-size: 2rem; color: var(--wa-color-brand-fill-loud)" onClick="openEditDialog(`{{ task.id }}`, `{{ task.title }}`, `{{ task.notes }}`)"></wa-icon-button>
+
+              <form>
+                <input type="text" hidden name="id" value="{{ task.id }}">
+                <wa-icon-button
+                    name="trash-can"
+                    variant="solid"
+                    style="font-size: 2rem; color: var(--wa-color-danger-fill-loud)"
+                    hx-delete="{% url "task_crud" %}"
+                ></wa-icon-button>
+              </form>
+
+              <form>
+                <input type="text" hidden name="id" value="{{ task.id }}">
+                <input type="text" hidden name="completed" value="{{ task.completed }}">
+                <wa-icon-button
+                    name="check"
+                    variant="solid"
+                    style="font-size: 2rem; color: var(--wa-color-success-fill-loud)"
+                    hx-patch="{% url "task_crud" %}"
+                    hx-swap="none"
+                ></wa-icon-button>
+              </form>
+
+            </div>
+          </div>
+        </wa-card>
+      {% endfor %}
+    </div>
+    <div style="text-align: end">
+      <wa-button variant="success" id="new-task-open">New Task</wa-button>
+    </div>
+  </div>
+
+  <wa-dialog label="New Task" id="new-task-dialog">
+    <form hx-post="{% url "task_crud" %}" hx-swap="none" class="wa-stack">
+      {% csrf_token %}
+      <wa-input
+          autofocus
+          label="Task Name"
+          name="title"
+          hint="Simple description of this task"
+      ></wa-input>
+      <wa-textarea
+          label="Notes"
+          name="notes"
+          hint="Notes and extra details about this task"
+      ></wa-textarea>
+      <wa-button type="submit" variant="success">Save Task</wa-button>
+    </form>
+  </wa-dialog>
+
+  <wa-dialog label="Edit Task" id="edit-task-dialog">
+    <form hx-patch="{% url "task_crud" %}" hx-swap="none" class="wa-stack">
+      {% csrf_token %}
+      <input type="text" hidden name="id" id="edit-id">
+      <wa-input
+          autofocus
+          label="Task Name"
+          name="title"
+          hint="Simple description of this task"
+          id="edit-title"
+      ></wa-input>
+      <wa-textarea
+          label="Notes"
+          name="notes"
+          hint="Notes and extra details about this task"
+          id="edit-notes"
+      ></wa-textarea>
+      <wa-button type="submit" variant="success">Save Task</wa-button>
+    </form>
+  </wa-dialog>
+
+  <script>
+    const newTaskDialog = document.querySelector("#new-task-dialog");
+    const editTaskDialog = document.querySelector("#edit-task-dialog");
+    const newTaskOpen = document.querySelector("#new-task-open");
+    let dialogs = document.querySelectorAll("wa-dialog");
+    let forms = document.querySelectorAll("form");
+
+    newTaskOpen.addEventListener("click", () => newTaskDialog.open = true);
+
+    document.body.addEventListener("htmx:oobAfterSwap", () => {
+      dialogs = document.querySelectorAll("wa-dialog");
+      forms = document.querySelectorAll("form");
+      dialogs.forEach((dialog) => {
+        dialog.open = false;
+      });
+      forms.forEach((form) => {
+        form.reset();
+      });
+    });
+
+    function openEditDialog(id, title, notes) {
+      editTaskDialog.querySelector("#edit-id").value = id;
+      editTaskDialog.querySelector("#edit-title").value = title;
+      editTaskDialog.querySelector("#edit-notes").value = notes;
+      editTaskDialog.open = true;
+    }
+
+    document.addEventListener("htmx:configRequest", (event) => {
+      event.detail.headers["X-CSRFToken"] = "{{ csrf_token }}"
+    });
+
+    document.addEventListener("htmx:afterRequest", (event) => {
+      if (event.detail.successful) {
+        if (event.detail.pathInfo.requestPath === "{% url "logout" %}") {
+            return window.location.reload()
+        }
+
+        switch (event.detail.requestConfig.verb) {
+          case "patch":
+            notyf.open({
+              type: "success",
+              message: "Task updated successfully",
+            });
+            break;
+          case "post":
+            notyf.open({
+              type: "success",
+              message: "Task created successfully",
+            });
+            break;
+          case "delete":
+            notyf.open({
+              type: "error",
+              message: "Task deleted successfully",
+            });
+            break;
+          default:
+            notyf.open({
+              type: "warning",
+              message: "Something happened... successfully",
+            });
+            break;
+        }
+      }
+    })
+  </script>
+{% endblock %}

@@ -1,0 +1,42 @@
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script>
+  const notyf = new Notyf({
+    ripple: false,
+    duration: 5000,
+    types: [
+      {
+        type: 'success',
+        className: 'notyf__toast--success',
+        icon: `<wa-icon name="circle-check" class="wa-body-xl"></wa-icon>`
+      },
+      {
+        type: 'error',
+        className: 'notyf__toast--error',
+        icon: `<wa-icon name="triangle-exclamation" class="wa-body-xl"></wa-icon>`
+      },
+      {
+        type: 'info',
+        className: 'notyf__toast--info',
+        icon: `<wa-icon name="circle-info" class="wa-body-xl"></wa-icon>`
+      },
+      {
+        type: 'warning',
+        className: 'notyf__toast--warning',
+        icon: `<wa-icon name="circle-info" class="wa-body-xl"></wa-icon>`
+      },
+      {
+        type: 'debug',
+        className: 'notyf__toast--debug',
+        icon: `<wa-icon name="bug" class="wa-body-xl"></wa-icon>`
+      },
+    ]
+  });
+
+  {% for message in messages %}
+    notyf.open({
+      type: "{{ message.tags }}",
+      message: "{{ message }}",
+    });
+  {% endfor %}
+
+</script>
