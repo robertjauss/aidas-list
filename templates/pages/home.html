@@ -11,30 +11,49 @@
           </div>
           <div class="wa-flank:end">
             <p class="wa-body-l">{{ task.notes }}</p>
-            <div class="wa-cluster">
+            <div class="wa-cluster wa-gap-xs">
 
-              <wa-icon-button name="pen-to-square" variant="solid" style="font-size: 2rem; color: var(--wa-color-brand-fill-loud)" onClick="openEditDialog(`{{ task.id }}`, `{{ task.title }}`, `{{ task.notes }}`)"></wa-icon-button>
+              <wa-button
+                  variant="brand"
+                  onClick="openEditDialog(`{{ task.id }}`, `{{ task.title }}`, `{{ task.notes }}`)"
+              >
+                <wa-icon
+                    name="pen-to-square"
+                    variant="solid"
+                    label="Edit"
+                    class="wa-font-size-2xl"
+                ></wa-icon>
+              </wa-button>
 
               <form>
                 <input type="text" hidden name="id" value="{{ task.id }}">
-                <wa-icon-button
-                    name="trash-can"
-                    variant="solid"
-                    style="font-size: 2rem; color: var(--wa-color-danger-fill-loud)"
+                <wa-button
+                    variant="danger"
                     hx-delete="{% url "task_crud" %}"
-                ></wa-icon-button>
+                >
+                  <wa-icon
+                      name="trash-can"
+                      label="Delete"
+                      class="wa-font-size-2xl"
+                  ></wa-icon>
+                </wa-button>
               </form>
 
               <form>
                 <input type="text" hidden name="id" value="{{ task.id }}">
                 <input type="text" hidden name="completed" value="{{ task.completed }}">
-                <wa-icon-button
-                    name="check"
-                    variant="solid"
-                    style="font-size: 2rem; color: var(--wa-color-success-fill-loud)"
+                <wa-button
+                    variant="success"
                     hx-patch="{% url "task_crud" %}"
                     hx-swap="none"
-                ></wa-icon-button>
+                >
+                  <wa-icon
+                      name="check"
+                      label="Mark as Complete"
+                      variant="solid"
+                      class="wa-font-size-2xl"
+                  ></wa-icon>
+                </wa-button>
               </form>
 
             </div>
