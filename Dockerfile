@@ -12,6 +12,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+RUN mkdir -p db
 RUN python manage.py migrate
 
 CMD ["gunicorn", "-k", "gthread", "--bind", "0.0.0.0:8000", "AidasTasks.wsgi:application"]
