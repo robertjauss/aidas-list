@@ -59,6 +59,10 @@
             </div>
           </div>
         </wa-card>
+      {% empty %}
+        <wa-card style="background: var(--wa-color-brand-fill-normal); color: var(--wa-color-brand-on-normal); text-align: center;">
+          <h2>No tasks! Robert did his job 😄</h2>
+        </wa-card>
       {% endfor %}
     </div>
     <div style="text-align: end">
