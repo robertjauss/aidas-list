@@ -1,0 +1,19 @@
+FROM python:3.13-alpine
+LABEL authors="Robert Jauss"
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8000
+
+WORKDIR /app
+
+RUN pip install --upgrade pip
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY . .
+
+RUN python manage.py migrate
+
+CMD ["gunicorn", "-k", "gthread", "--bind", "0.0.0.0:8000", "AidasTasks.wsgi:application"]
