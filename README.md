@@ -7,6 +7,8 @@ Overview
 A task tracking web app, built for simplicity. Originally designed to help a long-time client who needs computer assistance
 every now and then to keep track of what she needs help with, letting me see what tasks she has for me before we even connect.
 
+Demo available at https://demo.aidaslist.xyz
+
 Technologies Used
 ------------------
 
