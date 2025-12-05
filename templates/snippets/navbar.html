@@ -1,14 +1,14 @@
-<header slot="header" class="wa-split">
+<header slot="header" class="wa-split" style="background-color: var(--wa-color-brand-fill-quiet)">
   <div class="wa-cluster">
-    <wa-icon name="list-check" style="font-size: var(--wa-font-size-2xl);"></wa-icon>
+    <wa-icon name="list-check" class="wa-font-size-2xl"></wa-icon>
     <h2 style="padding: 0; margin: 0">Aida's Tasks</h2>
   </div>
 
   <div>
   {% if user.is_authenticated %}
-    <wa-button hx-post="{% url "logout" %}" hx-swap="none" appearance="accent outlined" variant="danger">Log Out</wa-button>
+    <wa-button hx-post="{% url "logout" %}" hx-swap="none" variant="danger">Log Out</wa-button>
   {% else %}
-    <wa-button href="{% url "login" %}" appearance="accent outlined" variant="brand">Log In</wa-button>
+    <wa-button href="{% url "login" %}" variant="brand">Log In</wa-button>
   {% endif %}
   </div>
 
