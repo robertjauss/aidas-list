@@ -65,7 +65,7 @@ WSGI_APPLICATION = "AidasTasks.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": os.getenv("DB_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.getenv("DB_NAME", BASE_DIR / "db.sqlite3"),
+        "NAME": os.getenv("DB_NAME", BASE_DIR / "db/db.sqlite3"),
         "HOST": os.getenv("DB_HOST", ""),
         "PORT": os.getenv("DB_PORT", ""),
         "USER": os.getenv("DB_USER", ""),
